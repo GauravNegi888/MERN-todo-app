@@ -1,9 +1,23 @@
 import React from "react";
 import TaskCard from "./TaskCard";
 import { FaPlus } from "react-icons/fa";
+import { useContext } from "react";
+import { TaskContext } from "../context/TaskContext";
 
 const TaskSection = () => {
-  const filter = ["all tasks", "pending", "completed"];
+  const {
+    displayTasks,
+    handleDone,
+    filters,
+    handleFilter,
+    DropDown,
+    handleDropDown,
+    handleClose,
+  } = useContext(TaskContext);
+
+  const handleFilters = (fil) => {
+    setTasks((prev) => prev.filter((e) => e.completed === fil));
+  };
 
   return (
     <div className="w-full h-[75%] overflow-hidden flex flex-col gap-2">
@@ -15,23 +29,29 @@ const TaskSection = () => {
       </div>
       {/* filter */}
       <div className="flex items-end gap-5 w-full h-[6%] px-1">
-        {filter.map((elem, index) => (
+        {filters.map((elem, index) => (
           <div
-            key={"index"}
+            onClick={() => handleFilter(elem.val)}
+            key={elem.id}
             className="text-md font-semibold cursor-pointer capitalize bg-zinc-200 px-5 py-1 rounded-full"
           >
-            <h1>{elem}</h1>
+            <h1>{elem.name}</h1>
           </div>
         ))}
       </div>
       {/* Task-wrapper */}
       <div className="mt-5 flex flex-col gap-4 overflow-y-auto w-full h-[81%] no-scrollbar pb-3">
         {/* Task-card */}
-        <TaskCard />
-        <TaskCard />
-        <TaskCard />
-        <TaskCard />
-        <TaskCard />
+        {displayTasks.map((elem, index) => (
+          <TaskCard
+            elem={elem}
+            key={elem.id}
+            DropDown={DropDown}
+            handleDone={handleDone}
+            handleDropDown={handleDropDown}
+            handleClose={handleClose}
+          />
+        ))}
       </div>
     </div>
   );

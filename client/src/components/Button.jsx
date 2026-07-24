@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import { TaskContext } from "../context/TaskContext";
 
-const Button = ({title, onClick, className}) => {
+const Button = ({ title, onClick, className }) => {
+  const { DropDown } = useContext(TaskContext);
   return (
-    <button className="bg-black text-white text-xl capitalize font-medium px-8 py-1 rounded-lg">
+    <button
+      onClick={() => onClick()}
+      className={` text-xl capitalize font-medium px-8 py-1 rounded-lg  ${className}`}
+    >
       {title}
     </button>
   );
