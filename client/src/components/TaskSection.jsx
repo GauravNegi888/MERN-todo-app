@@ -15,6 +15,7 @@ const TaskSection = () => {
     handleClose,
     handleTaskDelete,
     handleFormToggle,
+    handleEdit,
   } = useContext(TaskContext);
 
   const handleFilters = (fil) => {
@@ -56,6 +57,7 @@ const TaskSection = () => {
             handleDropDown={handleDropDown}
             handleClose={handleClose}
             handleTaskDelete={handleTaskDelete}
+            handleEdit={handleEdit}
           />
         ))}
       </div>

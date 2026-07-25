@@ -9,6 +9,7 @@ const TaskCard = ({
   handleDropDown,
   handleClose,
   handleTaskDelete,
+  handleEdit,
 }) => {
   return (
     <div className="w-full h-22 shrink-0 bg-zinc-200 rounded-lg px-3 py-3 flex shadow-sm">
@@ -46,7 +47,10 @@ const TaskCard = ({
             Delete
           </h1>
           <hr className="text-zinc-300" />
-          <h1 className="text-blue-500 cursor-pointer hover:scale-105 duration-300 transform ease-in-out">
+          <h1
+            onClick={() => handleEdit(elem)}
+            className="text-blue-500 cursor-pointer hover:scale-105 duration-300 transform ease-in-out"
+          >
             Edit
           </h1>
         </div>

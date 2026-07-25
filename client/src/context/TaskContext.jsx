@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 export const TaskContext = createContext();
 export const TaskProvider = ({ children }) => {
@@ -79,6 +79,10 @@ export const TaskProvider = ({ children }) => {
     completed: false,
   });
 
+  //Edit task
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
+
   //Fliter Logic to get a filtered array
   const displayTasks = tasks.filter((elem) => {
     if (displayFilter === "all") return true;
@@ -134,10 +138,39 @@ export const TaskProvider = ({ children }) => {
   //Add new task FormSubmit
   const onSubmit = (e) => {
     e.preventDefault();
-    setTasks((prev) => [...prev, formData]);
-    setFormData({ id: Date.now(), title: "", des: "", completed: false });
+
+    if (isEditing) {
+      setTasks((prev) =>
+        prev.map((task) => (task.id === formData.id ? formData : task)),
+      );
+    } else {
+      setTasks((prev) => [...prev, formData]);
+    }
+    handleFormToggle();
+    setFormData({
+      id: Date.now(),
+      title: "",
+      des: "",
+      completed: false,
+    });
+    setIsEditing(false);
+    setEditingTask(null);
+    handleClose();
+  };
+
+  //handleEdit
+  const handleEdit = (task) => {
+    setIsEditing(true);
+    setEditingTask(task);
     handleFormToggle();
   };
+
+  useEffect(() => {
+    if (isEditing) {
+      setFormData(editingTask);
+    }
+  }, [isEditing, editingTask]);
+
   return (
     <TaskContext.Provider
       value={{
@@ -147,6 +180,8 @@ export const TaskProvider = ({ children }) => {
         filters,
         isFormOpen,
         formData,
+        isEditing,
+        editingTask,
         setTasks,
         handleDone,
         handleFilter,
@@ -156,6 +191,7 @@ export const TaskProvider = ({ children }) => {
         handleFormToggle,
         onChange,
         onSubmit,
+        handleEdit,
       }}
     >
       {children}
