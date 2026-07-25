@@ -13,6 +13,8 @@ const TaskSection = () => {
     DropDown,
     handleDropDown,
     handleClose,
+    handleTaskDelete,
+    handleFormToggle,
   } = useContext(TaskContext);
 
   const handleFilters = (fil) => {
@@ -23,7 +25,10 @@ const TaskSection = () => {
     <div className="w-full h-[75%] overflow-hidden flex flex-col gap-2">
       <div className="flex justify-between h-[9%]">
         <h1 className="text-2xl font-bold">All Tasks</h1>
-        <div className="h-full flex items-center justify-center bg-black text-white p-3 text-xl rounded-lg">
+        <div
+          onClick={() => handleFormToggle()}
+          className="h-full flex items-center justify-center bg-black text-white p-3 text-xl rounded-lg cursor-pointer"
+        >
           <FaPlus />
         </div>
       </div>
@@ -50,6 +55,7 @@ const TaskSection = () => {
             handleDone={handleDone}
             handleDropDown={handleDropDown}
             handleClose={handleClose}
+            handleTaskDelete={handleTaskDelete}
           />
         ))}
       </div>

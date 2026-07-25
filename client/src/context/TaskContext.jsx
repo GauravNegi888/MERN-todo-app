@@ -67,6 +67,18 @@ export const TaskProvider = ({ children }) => {
   //dropDown and Button display
   const [DropDown, setDropDown] = useState(null);
 
+  //Form Display
+
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  //New form Data / state
+  const [formData, setFormData] = useState({
+    id: Date.now(),
+    title: "",
+    des: "",
+    completed: false,
+  });
+
   //Fliter Logic to get a filtered array
   const displayTasks = tasks.filter((elem) => {
     if (displayFilter === "all") return true;
@@ -99,6 +111,33 @@ export const TaskProvider = ({ children }) => {
   const handleClose = () => {
     setDropDown(null);
   };
+
+  //Delete task
+  const handleTaskDelete = (id) => {
+    setTasks((prev) => prev.filter((e) => e.id !== id));
+  };
+
+  //Add new Form Toggle
+  const handleFormToggle = () => {
+    setIsFormOpen((prev) => !prev);
+  };
+
+  //Add new task FormField onChange
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  //Add new task FormSubmit
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setTasks((prev) => [...prev, formData]);
+    setFormData({ id: Date.now(), title: "", des: "", completed: false });
+    handleFormToggle();
+  };
   return (
     <TaskContext.Provider
       value={{
@@ -106,10 +145,17 @@ export const TaskProvider = ({ children }) => {
         displayTasks,
         DropDown,
         filters,
+        isFormOpen,
+        formData,
+        setTasks,
         handleDone,
         handleFilter,
         handleDropDown,
-        handleClose
+        handleClose,
+        handleTaskDelete,
+        handleFormToggle,
+        onChange,
+        onSubmit,
       }}
     >
       {children}
