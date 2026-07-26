@@ -51,7 +51,7 @@ const TaskSection = () => {
         {displayTasks.map((elem, index) => (
           <TaskCard
             elem={elem}
-            key={elem.id}
+            key={elem._id}
             DropDown={DropDown}
             handleDone={handleDone}
             handleDropDown={handleDropDown}

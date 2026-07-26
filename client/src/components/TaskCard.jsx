@@ -25,13 +25,13 @@ const TaskCard = ({
       </div>
       <div className="w-[25%] h-full flex items-center justify-center relative">
         <div className="absolute -top-1 -right-1 text-lg">
-          {DropDown !== elem.id && (
-            <PiDotsThreeVerticalBold onClick={() => handleDropDown(elem.id)} />
+          {DropDown !== elem._id && (
+            <PiDotsThreeVerticalBold onClick={() => handleDropDown(elem._id)} />
           )}
         </div>
 
         <div
-          className={`w-[60%] absolute -top-1.5 -right-1 shadow-sm bg-zinc-100 px-2 gap-0.5 flex flex-col text-sm py-1 rounded-lg ${DropDown === elem.id ? "block" : "hidden"}`}
+          className={`w-[60%] absolute -top-1.5 -right-1 shadow-sm bg-zinc-100 px-2 gap-0.5 flex flex-col text-sm py-1 rounded-lg ${DropDown === elem._id ? "block" : "hidden"}`}
         >
           <div className="text-zinc-900 flex justify-end">
             <IoCloseOutline
@@ -41,7 +41,7 @@ const TaskCard = ({
           </div>
           <hr className="text-zinc-300" />
           <h1
-            onClick={() => handleTaskDelete(elem.id)}
+            onClick={() => handleTaskDelete(elem._id)}
             className="text-red-500 cursor-pointer hover:scale-105 duration-300 transform ease-in-out"
           >
             Delete
@@ -55,12 +55,12 @@ const TaskCard = ({
           </h1>
         </div>
         <Button
-          onClick={() => handleDone(elem.id)}
+          onClick={() => handleDone(elem._id, elem.completed)}
           title={elem.completed ? "undo" : "done"}
           DropDown={DropDown}
           className={`
                ${elem.completed ? "bg-transparent text-black border-2" : "bg-black text-white"}
-                ${DropDown === elem.id ? "hidden" : "block"}
+                ${DropDown === elem._id ? "hidden" : "block"}
                   `}
         />
       </div>

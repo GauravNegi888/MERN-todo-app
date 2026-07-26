@@ -1,46 +1,10 @@
 import React, { createContext, useEffect, useState } from "react";
+import axios from "axios";
 
 export const TaskContext = createContext();
 export const TaskProvider = ({ children }) => {
   //Raw Data
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Complete React Project",
-      des: "Finish the responsive frontend and implement all UI components.",
-      completed: false,
-    },
-    {
-      id: 2,
-      title: "Practice DSA",
-      des: "Solve 3-4 problems from the Striver DSA Sheet.",
-      completed: true,
-    },
-    {
-      id: 3,
-      title: "Push Code to GitHub",
-      des: "Commit today's progress with a meaningful commit message.",
-      completed: false,
-    },
-    {
-      id: 4,
-      title: "Learn Express.js Basics",
-      des: "Understand routing, middleware, and REST API fundamentals.",
-      completed: false,
-    },
-    {
-      id: 5,
-      title: "Review JavaScript Concepts",
-      des: "Revise ES6 features, promises, async/await, and array methods.",
-      completed: true,
-    },
-    {
-      id: 6,
-      title: "Build Todo App Backend",
-      des: "Create CRUD APIs using Express and MongoDB.",
-      completed: false,
-    },
-  ]);
+  const [tasks, setTasks] = useState([]);
 
   //Filter options
   const filters = [
@@ -73,7 +37,6 @@ export const TaskProvider = ({ children }) => {
 
   //New form Data / state
   const [formData, setFormData] = useState({
-    id: Date.now(),
     title: "",
     des: "",
     completed: false,
@@ -83,6 +46,21 @@ export const TaskProvider = ({ children }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
 
+  //API Call Function
+  const getData = async () => {
+    try {
+      const res = await axios.get("http://localhost:8000/api/tasks");
+      setTasks(res.data.allTasks);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  //API Call to get Data
+  useEffect(() => {
+    getData();
+  }, []);
+
   //Fliter Logic to get a filtered array
   const displayTasks = tasks.filter((elem) => {
     if (displayFilter === "all") return true;
@@ -91,13 +69,19 @@ export const TaskProvider = ({ children }) => {
   });
 
   //HandleDone Button logic
-  const handleDone = (id) => {
-    console.log(id);
-    setTasks((prev) =>
-      prev.map((elem, index) =>
-        elem.id === id ? { ...elem, completed: !elem.completed } : elem,
-      ),
-    );
+  const handleDone = async (_id, current) => {
+    try {
+      await axios.put(`http://localhost:8000/api/tasks/${_id}`, {
+        completed: !current,
+      });
+      setTasks((prev) =>
+        prev.map((elem, index) =>
+          elem._id === _id ? { ...elem, completed: !elem.completed } : elem,
+        ),
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   //handleFilter Button logic
@@ -107,8 +91,8 @@ export const TaskProvider = ({ children }) => {
   };
 
   //handleDropDown and Button
-  const handleDropDown = (id) => {
-    setDropDown(id);
+  const handleDropDown = (_id) => {
+    setDropDown(_id);
   };
 
   //handleDropDown Close
@@ -117,8 +101,13 @@ export const TaskProvider = ({ children }) => {
   };
 
   //Delete task
-  const handleTaskDelete = (id) => {
-    setTasks((prev) => prev.filter((e) => e.id !== id));
+  const handleTaskDelete = async (_id) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/tasks/${_id}`);
+      setTasks((prev) => prev.filter((e) => e._id !== _id));
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   //Add new Form Toggle
@@ -135,27 +124,17 @@ export const TaskProvider = ({ children }) => {
     }));
   };
 
-  //Add new task FormSubmit
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    if (isEditing) {
-      setTasks((prev) =>
-        prev.map((task) => (task.id === formData.id ? formData : task)),
+  //AddNewTask
+  const createTask = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/tasks/",
+        formData,
       );
-    } else {
-      setTasks((prev) => [...prev, formData]);
+      setTasks((prev) => [...prev, res.data.newTask]);
+    } catch (error) {
+      console.log(error.message);
     }
-    handleFormToggle();
-    setFormData({
-      id: Date.now(),
-      title: "",
-      des: "",
-      completed: false,
-    });
-    setIsEditing(false);
-    setEditingTask(null);
-    handleClose();
   };
 
   //handleEdit
@@ -163,6 +142,38 @@ export const TaskProvider = ({ children }) => {
     setIsEditing(true);
     setEditingTask(task);
     handleFormToggle();
+  };
+
+  //handleUpdate
+  const handleUpdate = async (_id) => {
+    try {
+      await axios.put(`http://localhost:8000/api/tasks/${_id}`, formData);
+      setTasks((prev) =>
+        prev.map((task) => (task._id === formData._id ? formData : task)),
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  //Add new task FormSubmit
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (isEditing) {
+      handleUpdate(formData._id);
+    } else {
+      createTask();
+    }
+    handleFormToggle();
+    setFormData({
+      title: "",
+      des: "",
+      completed: false,
+    });
+    setIsEditing(false);
+    setEditingTask(null);
+    handleClose();
   };
 
   useEffect(() => {
