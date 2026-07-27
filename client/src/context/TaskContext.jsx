@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export const TaskContext = createContext();
 export const TaskProvider = ({ children }) => {
@@ -46,6 +47,9 @@ export const TaskProvider = ({ children }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
 
+  //Data is loaded or Not
+  const [loaded, setloaded] = useState(false);
+
   //API Call Function
   const getData = async () => {
     try {
@@ -59,6 +63,7 @@ export const TaskProvider = ({ children }) => {
   //API Call to get Data
   useEffect(() => {
     getData();
+    setloaded(true);
   }, []);
 
   //Fliter Logic to get a filtered array
@@ -79,6 +84,11 @@ export const TaskProvider = ({ children }) => {
           elem._id === _id ? { ...elem, completed: !elem.completed } : elem,
         ),
       );
+      if (current === true) {
+        toast.error("Task Undo");
+      } else {
+        toast.success("Task Completed");
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -87,7 +97,6 @@ export const TaskProvider = ({ children }) => {
   //handleFilter Button logic
   const handleFilter = (val) => {
     setDisplayFilter(val);
-    console.log(displayFilter);
   };
 
   //handleDropDown and Button
@@ -105,6 +114,7 @@ export const TaskProvider = ({ children }) => {
     try {
       await axios.delete(`http://localhost:8000/api/tasks/${_id}`);
       setTasks((prev) => prev.filter((e) => e._id !== _id));
+      toast.success("Task Deleted.");
     } catch (error) {
       console.log(error.message);
     }
@@ -132,6 +142,7 @@ export const TaskProvider = ({ children }) => {
         formData,
       );
       setTasks((prev) => [...prev, res.data.newTask]);
+      toast.success("New Task is Added");
     } catch (error) {
       console.log(error.message);
     }
@@ -151,6 +162,7 @@ export const TaskProvider = ({ children }) => {
       setTasks((prev) =>
         prev.map((task) => (task._id === formData._id ? formData : task)),
       );
+      toast.success("Task is Updated");
     } catch (error) {
       console.log(error.message);
     }
@@ -162,10 +174,15 @@ export const TaskProvider = ({ children }) => {
 
     if (isEditing) {
       handleUpdate(formData._id);
+      handleFormToggle();
     } else {
-      createTask();
+      if (formData.title.length == 0 || formData.des.length == 0) {
+        toast.error("Fill the fields.");
+      } else {
+        createTask();
+        handleFormToggle();
+      }
     }
-    handleFormToggle();
     setFormData({
       title: "",
       des: "",
@@ -189,10 +206,12 @@ export const TaskProvider = ({ children }) => {
         displayTasks,
         DropDown,
         filters,
+        displayFilter,
         isFormOpen,
         formData,
         isEditing,
         editingTask,
+        loaded,
         setTasks,
         handleDone,
         handleFilter,
