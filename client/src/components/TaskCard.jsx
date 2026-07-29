@@ -31,12 +31,12 @@ const TaskCard = ({
         </div>
 
         <div
-          className={`w-[60%] absolute -top-1.5 -right-1 shadow-sm bg-zinc-100 px-2 gap-0.5 flex flex-col text-sm py-1 rounded-lg ${DropDown === elem._id ? "block" : "hidden"}`}
+          className={`w-[90%] md:w-[60%] absolute -top-1.5 -right-1 shadow-sm bg-zinc-100 px-2 gap-0.5 flex flex-col text-sm py-1 rounded-lg ${DropDown === elem._id ? "block" : "hidden"}`}
         >
           <div className="text-zinc-900 flex justify-end">
             <IoCloseOutline
               onClick={handleClose}
-              className="text-right text-lg"
+              className="text-right text-xl md:text-lg"
             />
           </div>
           <hr className="text-zinc-300" />

@@ -8,21 +8,13 @@ import {
   Tooltip,
 } from "recharts";
 
-const data = [
-  { day: "Mon", hours: 0 },
-  { day: "Tue", hours: 1.5 },
-  { day: "Wed", hours: 2.5 },
-  { day: "Thu", hours: 1 },
-  { day: "Fri", hours: 4 },
-  { day: "Sat", hours: 3 },
-  { day: "Sun", hours: 2 },
-];
-
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload?.length) {
     return (
-      <div className="rounded-lg bg-white px-3 py-2 shadow-md">
-        <p className="font-medium">{payload[0].value}h</p>
+      <div className="rounded-lg bg-white px-2 py-1 sm:px-3 sm:py-2 shadow-md">
+        <p className="text-xs sm:text-sm font-medium">
+          {payload[0].value}T
+        </p>
       </div>
     );
   }
@@ -30,17 +22,17 @@ const CustomTooltip = ({ active, payload }) => {
   return null;
 };
 
-export default function ProductivityChart() {
+export default function ProductivityChart({ data }) {
   return (
-    <div className="h-full w-full rounded-3xl bg-zinc-100 p-6">
+    <div className="h-full w-full rounded-3xl bg-zinc-100 p-3 sm:p-4 md:p-5 lg:p-6">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={data}
           margin={{
-            top: 20,
-            right: 20,
-            left: 10,
-            bottom: 10,
+            top: 10,
+            right: 10,
+            left: 0,
+            bottom: 0,
           }}
         >
           <CartesianGrid
@@ -53,13 +45,15 @@ export default function ProductivityChart() {
             dataKey="day"
             axisLine={false}
             tickLine={false}
-            tickMargin={12}
+            tickMargin={8}
+            tick={{ fontSize: 12 }}
           />
 
           <YAxis
             axisLine={false}
             tickLine={false}
-            tickMargin={12}
+            tickMargin={8}
+            tick={{ fontSize: 12 }}
           />
 
           <Tooltip
@@ -68,10 +62,10 @@ export default function ProductivityChart() {
           />
 
           <Bar
-            dataKey="hours"
+            dataKey="tasks"
             fill="#18181b"
             radius={[8, 8, 0, 0]}
-            barSize={28}
+            maxBarSize={28}
           />
         </BarChart>
       </ResponsiveContainer>

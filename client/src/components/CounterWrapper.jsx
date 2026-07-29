@@ -9,7 +9,7 @@ const CounterWrapper = () => {
   const pendingTask = tasks.filter((e) => e.completed === false).length;
 
   return (
-    <div className="w-full h-[25%] flex gap-7">
+    <div className="w-full h-[17%] lg:h-[25%] flex gap-7">
       <CounterCard
         count={completedTask.toString().padStart(2, 0)}
         title1={"Tasks"}

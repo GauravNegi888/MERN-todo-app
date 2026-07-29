@@ -25,26 +25,35 @@ export const createTask = async (req, res) => {
 
 export const updateTask = async (req, res) => {
   try {
-    const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const oldTask = await Task.findById(req.params.id);
 
-    if (!task) {
+    if (!oldTask) {
       return res.status(404).json({
         success: false,
         message: "Task not found.",
       });
     }
 
+    if (oldTask.completed === false && req.body.completed === true) {
+      req.body.completedAt = new Date();
+    } else if (oldTask.completed === true && req.body.completed === false) {
+      req.body.completedAt = null;
+    }
+
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
     res.status(200).json({
       success: true,
       message: "Task updated successfully.",
-      task,
+      task: updatedTask,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Failed to update the task.",
+      message: "Failed to update task.",
       error: error.message,
     });
   }

@@ -53,8 +53,11 @@ export const TaskProvider = ({ children }) => {
   //API Call Function
   const getData = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/tasks");
+      const res = await axios.get(
+        "https://mern-todo-app-backend-ni4p.onrender.com/api/tasks",
+      );
       setTasks(res.data.allTasks);
+      setloaded(true);
     } catch (error) {
       console.log(error.message);
     }
@@ -63,7 +66,6 @@ export const TaskProvider = ({ children }) => {
   //API Call to get Data
   useEffect(() => {
     getData();
-    setloaded(true);
   }, []);
 
   //Fliter Logic to get a filtered array
@@ -76,13 +78,14 @@ export const TaskProvider = ({ children }) => {
   //HandleDone Button logic
   const handleDone = async (_id, current) => {
     try {
-      await axios.put(`http://localhost:8000/api/tasks/${_id}`, {
-        completed: !current,
-      });
+      const res = await axios.put(
+        `https://mern-todo-app-backend-ni4p.onrender.com/api/tasks/${_id}`,
+        {
+          completed: !current,
+        },
+      );
       setTasks((prev) =>
-        prev.map((elem, index) =>
-          elem._id === _id ? { ...elem, completed: !elem.completed } : elem,
-        ),
+        prev.map((elem) => (elem._id === _id ? res.data.task : elem)),
       );
       if (current === true) {
         toast.error("Task Undo");
@@ -112,7 +115,9 @@ export const TaskProvider = ({ children }) => {
   //Delete task
   const handleTaskDelete = async (_id) => {
     try {
-      await axios.delete(`http://localhost:8000/api/tasks/${_id}`);
+      await axios.delete(
+        `https://mern-todo-app-backend-ni4p.onrender.com/api/tasks/${_id}`,
+      );
       setTasks((prev) => prev.filter((e) => e._id !== _id));
       toast.success("Task Deleted.");
     } catch (error) {
@@ -138,7 +143,7 @@ export const TaskProvider = ({ children }) => {
   const createTask = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/tasks/",
+        "https://mern-todo-app-backend-ni4p.onrender.com/api/tasks/",
         formData,
       );
       setTasks((prev) => [...prev, res.data.newTask]);
@@ -158,9 +163,12 @@ export const TaskProvider = ({ children }) => {
   //handleUpdate
   const handleUpdate = async (_id) => {
     try {
-      await axios.put(`http://localhost:8000/api/tasks/${_id}`, formData);
+      const res = await axios.put(
+        `https://mern-todo-app-backend-ni4p.onrender.com/api/tasks/${_id}`,
+        formData,
+      );
       setTasks((prev) =>
-        prev.map((task) => (task._id === formData._id ? formData : task)),
+        prev.map((task) => (task._id === _id ? res.data.task : task)),
       );
       toast.success("Task is Updated");
     } catch (error) {

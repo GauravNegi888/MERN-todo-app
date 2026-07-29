@@ -6,7 +6,7 @@ const Button = ({ title, onClick, className }) => {
   return (
     <button
       onClick={() => onClick()}
-      className={` text-xl capitalize font-medium px-8 py-1 rounded-lg  ${className}`}
+      className={`text-md md:text-xl capitalize font-medium px-5 lg:px-6 py-0 lg:py-0.5 rounded-lg  ${className}`}
     >
       {title}
     </button>
