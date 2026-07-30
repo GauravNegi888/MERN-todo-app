@@ -26,7 +26,7 @@ const AddForm = () => {
 
       <div className="flex gap-3">
         <button
-          className="text-white font-semibold text-xl w-full bg-black py-2 rounded-lg cursor-pointer"
+          className="text-white font-semibold text-lg md:text-xl w-full bg-black py-2 rounded-lg cursor-pointer"
           type="submit"
         >
           {isEditing ? "Save Changes" : "Add Task"}
