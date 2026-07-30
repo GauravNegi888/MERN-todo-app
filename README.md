@@ -144,8 +144,7 @@ This provides a simple visual overview of your productivity throughout the week.
 
 **Gaurav Singh Negi**
 
-* GitHub: https://github.com/your-github-username
-* LinkedIn: https://linkedin.com/in/your-linkedin-profile
+* GitHub: https://github.com/GauravNegi888
 
 ---
 
