@@ -4,9 +4,9 @@ A full-stack task management application built with the **MERN Stack** that help
 
 ## 🚀 Live Demo
 
-**Frontend:** *Add your deployed frontend URL here*
+**Frontend:** https://mern-todo-app-gamma-mauve.vercel.app/
 
-**Backend API:** *Add your deployed backend URL here*
+**Backend API:** https://mern-todo-app-backend-ni4p.onrender.com/
 
 ---
 
@@ -64,7 +64,7 @@ taskflow/
 ### 1. Clone the repository
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/GauravNegi888/MERN-todo-app
 ```
 
 ### 2. Go into the project
@@ -139,11 +139,6 @@ This provides a simple visual overview of your productivity throughout the week.
 
 ---
 
-## 📸 Screenshots
-
-*Add screenshots of your application here.*
-
----
 
 ## 👨‍💻 Author
 
