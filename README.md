@@ -1,71 +1,159 @@
-# MERN Todo App
+# 📝 TaskFlow - MERN Todo App
 
-A modern and responsive Todo application built using the MERN stack. The project focuses on clean UI, dynamic task management, and full CRUD functionality.
+A full-stack task management application built with the **MERN Stack** that helps users organize daily tasks, track productivity, and visualize weekly progress.
 
-## 🚀 Features
+## 🚀 Live Demo
 
-- Dynamic task rendering
-- Filter tasks (All, Pending, Completed)
-- Mark tasks as complete/undo
-- Task statistics dashboard
-- Interactive dropdown menu for each task
-- Responsive and modern UI
-- Context API for state management
+**Frontend:** *Add your deployed frontend URL here*
+
+**Backend API:** *Add your deployed backend URL here*
+
+---
+
+## 📌 Features
+
+* ✅ Create new tasks
+* ✏️ Edit existing tasks
+* 🗑️ Delete tasks
+* ✔️ Mark tasks as completed
+* 🔍 Filter tasks (All, Pending, Completed)
+* 📊 Weekly Productivity Chart
+* 📱 Responsive and clean UI
+* 🔔 Toast notifications for user actions
+* ⚡ Fast and smooth user experience
+
+---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
 
-- React.js
-- Tailwind CSS
-- React Context API
-- React Icons
+* React.js
+* Tailwind CSS
+* Axios
+* React Context API
+* React Hot Toast
+* Recharts
+* React Icons
 
-### Backend (Upcoming)
+### Backend
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+
+---
 
 ## 📂 Project Structure
 
 ```
-client/
-server/ (coming soon)
+taskflow/
+│
+├── client/          # React Frontend
+│
+├── server/          # Express Backend
+│
+└── README.md
 ```
 
-## 📌 Upcoming Features
-
-- Add new task
-- Edit existing task
-- Delete task
-- MongoDB integration
-- User Authentication
-- Charts with live data
-- Search & Sort tasks
-
-## 📸 Screenshots
-
-Coming Soon...
+---
 
 ## ⚙️ Installation
 
+### 1. Clone the repository
+
 ```bash
-git clone https://github.com/GauravNegi888/MERN-todo-app.git
-cd MERN-todo-app
+git clone <your-repository-url>
 ```
 
-Install dependencies:
+### 2. Go into the project
+
+```bash
+cd taskflow
+```
+
+### 3. Install frontend dependencies
 
 ```bash
 cd client
 npm install
+```
+
+### 4. Install backend dependencies
+
+```bash
+cd ../server
+npm install
+```
+
+---
+
+## 🔐 Environment Variables
+
+Create a `.env` file inside the **server** folder.
+
+```env
+PORT=8000
+MONGO_URI=Your_MongoDB_Connection_String
+```
+
+---
+
+## ▶️ Running the Project
+
+### Start Backend
+
+```bash
+cd server
 npm run dev
 ```
+
+### Start Frontend
+
+```bash
+cd client
+npm run dev
+```
+
+---
+
+## 📊 Weekly Productivity Chart
+
+Whenever a task is marked as completed, the application stores the completion date and updates the productivity chart for the current week.
+
+This provides a simple visual overview of your productivity throughout the week.
+
+---
+
+## 🎯 Future Improvements
+
+* User Authentication (JWT)
+* Multiple User Support
+* Due Dates
+* Task Categories
+* Search & Sorting
+* Dark Mode
+* Drag & Drop Tasks
+* Email Reminders
+
+---
+
+## 📸 Screenshots
+
+*Add screenshots of your application here.*
+
+---
 
 ## 👨‍💻 Author
 
 **Gaurav Singh Negi**
 
-GitHub: https://github.com/GauravNegi888
+* GitHub: https://github.com/your-github-username
+* LinkedIn: https://linkedin.com/in/your-linkedin-profile
+
+---
+
+## ⭐ Support
+
+If you like this project, consider giving it a **⭐ Star** on GitHub.
